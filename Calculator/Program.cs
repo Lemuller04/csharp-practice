@@ -34,9 +34,9 @@ static float GetFloat()
     while (true)
     {
         if (float.TryParse(Console.ReadLine(), out float entry))
-        {
             return entry;
-        }
+
+        Console.WriteLine("Entrada inválida. Tente Novamente.");
     }
 
 }
