@@ -24,7 +24,7 @@
             _ => 0f
         };
 
-        Console.WriteLine($"\nO resultado é {res}");
+        Console.WriteLine($"\nO resultado é {Math.Round(res, 2)}");
         Console.ReadKey();
     }
 }
