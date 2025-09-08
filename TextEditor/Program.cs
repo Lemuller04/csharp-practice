@@ -16,7 +16,7 @@
         {
             case 0: Environment.Exit(0); break;
             case 1: OpenFile(); break;
-            case 2: NewFile(); break;
+            case 2: Edit(); break;
             default:
                 Console.WriteLine("Opção inválida.");
                 Console.ReadKey();
@@ -25,8 +25,50 @@
     }
 }
 
-static void OpenFile() { }
+static void OpenFile()
+{
+    Console.Clear();
+    Console.WriteLine("Insira o caminho do arquivo: ");
+    string path = Console.ReadLine();
 
-static void NewFile() { }
+    using (var file = new StreamReader(path))
+    {
+        string text = file.ReadToEnd();
+        Console.WriteLine(text);
+    }
+
+    Console.ReadKey();
+}
+
+static void Edit()
+{
+    Console.Clear();
+    Console.WriteLine("Editando arquivo: ? - Pressione <Esc> para sair.");
+    string text = "";
+
+    do
+    {
+        text += Console.ReadLine();
+        text += Environment.NewLine;
+    }
+    while (Console.ReadKey().Key != ConsoleKey.Escape);
+
+    Save(text);
+}
+
+static void Save(string text)
+{
+    Console.Clear();
+    Console.WriteLine("Entre o caminho para salvar o arquivo: ");
+    string path = Console.ReadLine();
+
+    using (var file = new StreamWriter(path))
+    {
+        file.Write(text);
+    }
+
+    Console.WriteLine($"Arquivo {path} salvo com sucesso.");
+    Console.ReadKey();
+}
 
 Menu();
