@@ -9,11 +9,34 @@
 
         if (data == "q") Environment.Exit(0);
 
-        char type = char.Parse(data.Substring(data.Length - 1, 1));
-        int time = int.Parse(data.Substring(0, data.Length - 1));
-        int multiplier = 1;
+        if (string.IsNullOrEmpty(data) || data.Length < 2)
+        {
+            Console.WriteLine("Entrada inválida.");
+            Console.ReadKey();
+            continue;
+        }
 
-        if (type == 'm') multiplier = 60;
+        char type = data[^1];
+        if (type != 's' && type != 'm')
+        {
+            Console.WriteLine("Unidade de tempo inválida.");
+            Console.ReadKey();
+            continue;
+        }
+
+        if (!int.TryParse(data.Substring(0, data.Length - 1), out int time))
+        {
+            Console.WriteLine("Tempo inválido.");
+            Console.ReadKey();
+            continue;
+        }
+
+        int multiplier = type switch
+        {
+            'm' => 60,
+            _ => 1
+        };
+
         Start(time * multiplier);
     }
 }
