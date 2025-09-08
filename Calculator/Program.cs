@@ -40,6 +40,11 @@ static float Subtract(float n1, float n2)
 
 static float Divide(float n1, float n2)
 {
+    if (n2 == 0)
+    {
+        Console.WriteLine("Erro: divisão por zero");
+        return 0f;
+    }
     return n1 / n2;
 }
 
