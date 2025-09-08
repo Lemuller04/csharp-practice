@@ -1,4 +1,6 @@
-﻿static void Menu()
+﻿using System.Text;
+
+static void Menu()
 {
     while (true)
     {
@@ -31,10 +33,17 @@ static void OpenFile()
     Console.WriteLine("Insira o caminho do arquivo: ");
     string path = Console.ReadLine();
 
-    using (var file = new StreamReader(path))
+    try
     {
-        string text = file.ReadToEnd();
-        Console.WriteLine(text);
+        using (var file = new StreamReader(path))
+        {
+            string text = file.ReadToEnd();
+            Console.WriteLine(text);
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Erro ao abrir o arquivo: {ex.Message}");
     }
 
     Console.ReadKey();
@@ -44,16 +53,25 @@ static void Edit()
 {
     Console.Clear();
     Console.WriteLine("Editando arquivo: ? - Pressione <Esc> para sair.");
-    string text = "";
 
-    do
+    var textBuilder = new StringBuilder();
+
+    while (true)
     {
-        text += Console.ReadLine();
-        text += Environment.NewLine;
-    }
-    while (Console.ReadKey().Key != ConsoleKey.Escape);
+        var keyInfo = Console.ReadKey(intercept: true);
+        if (keyInfo.Key == ConsoleKey.Escape) break;
 
-    Save(text);
+        Console.Write(keyInfo.KeyChar);
+        textBuilder.Append(keyInfo.KeyChar);
+
+        if (keyInfo.Key == ConsoleKey.Enter)
+        {
+            textBuilder.AppendLine();
+            Console.WriteLine();
+        }
+    }
+
+    Save(textBuilder.ToString());
 }
 
 static void Save(string text)
