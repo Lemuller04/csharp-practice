@@ -1,8 +1,10 @@
 bin/
 obj/
+tests/
 *.user
 *.suo
 *.log
 *.dll
 *.exe
 *.pdb
+.env*
